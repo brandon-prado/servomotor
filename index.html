@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Estilo para el fondo de la página */
+    body {
+      background-color: #FFFFE0; /* Amarillo claro */
+    }
+
+    /* Estilo para centrar el título */
+    h1 {
+      text-align: center;
+      font-family: 'Arial Round', sans-serif; /* Cambia 'NOMBRE DE TU FUENTE' por el nombre de la fuente que descargaste o enlazaste */
+    }
+
+    /* Estilo para centrar los botones e imagen */
+    .button-container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Estilo para los botones con separación */
+    .custom-button {
+      margin-top: 10px; /* Espacio superior para separación */
+    }
+
+    /* Estilo para el label de valor retornado */
+    #responseValue {
+      font-family: 'Arial Round', sans-serif; /* Cambia 'NOMBRE DE TU FUENTE' por la fuente que prefieras */
+      font-size: 24px; /* Tamaño del texto del label */
+      margin-top: 20px; /* Espacio superior para separación del label */
+    }
+  </style>
+
+  <script>
+    var accessToken = "32c87f834fe3f4b89fab39185a62f236d245d7b0";
+    var deviceID = "380035000c47343438323536";
+    var url = "https://api.particle.io/v1/devices/" + deviceID + "/btn";
+	
+	
+	function btnOp(){
+		$.post(url, { params: "btn", access_token: accessToken })
+			.done(function(response){
+			
+				console.log("respuesta de btn", response.return_value);
+				// Actualizar el valor en el label
+          $("#responseValue").text("Encendido -> Valor retornado: " + response.return_value);
+          // Cambiar la imagen a foco encendido
+          $("#focoImagen").attr("src", "encendido.jpeg");
+			
+			})
+			.fail(function(error){
+			
+				console.log("respuesta de btn", response.return_value);
+			
+			});
+	
+	}
+	
+	function btnOq(){
+		$.post(url, { params: "btnOq", access_token: accessToken })
+			.done(function(response){
+			
+				console.log("respuesta de btn", response.return_value);
+			
+			})
+			.fail(function(error){
+			
+				console.log("respuesta de btn", response.return_value);
+			
+			});
+	
+	}
+	
+	function alternar(){
+	
+		if(estado){
+		
+			btnOp();
+		
+		}else{
+		
+			btnOq();
+		
+		}
+		
+		estado = !estado;
+	
+	}
+	
+ 
+  </script>
+</head>
+
+<body>
+  <h1>Alimentador de peces</h1>
+  <div class="button-container">
+    <img id="focoImagen" src="apagado.png" alt="Foco apagado">
+    <label id="responseValue">Valor retornado: Sin ejecutar</label>
+    <input type="button" class="custom-button" onclick="btnOp()" value="ON" />
+  </div>
+</body>
+</html>
